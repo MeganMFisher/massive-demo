@@ -7,4 +7,5 @@ select
 from incidents
 join injuries on incidents.injuryid = injuries.id
 join affectedareas on injuries.affectedareaid = affectedAreas.id 
-join causes on incidents.causeid = causes.id;
+join causes on incidents.causeid = causes.id
+where state = $1;
