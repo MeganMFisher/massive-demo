@@ -8,22 +8,28 @@ app.use(bodyParser.json());
 
 const port = 3000;
 
-massive(config.connectionString).then(db => {
-  app.set('db', db);
-});
-
 app.get('/', (req, res) => {
-  res.send('massive-demo');
+  const db = req.app.get('db')
+  db.getAllInjuries().then(injuries => {
+    res.send(injuries);
+  })
+
 });
 
 app.get('/incidents', (req, res) => {
-  res.send([]);
+  const db = req.app.get('db')
+  db.getAllIncidents().then(incidents => {
+    res.send(incidents);
+  })
 });
 
 app.post('/incidents', (req, res) => {
   res.send({id: 123});
 });
 
-app.listen(port, () => {
-  console.log('Started server on port', port);
+massive(config.connectionString).then(db => {
+  app.set('db', db);
+  app.listen(port, () => {
+    console.log('Started server on port', port);
+  });
 });
