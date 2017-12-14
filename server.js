@@ -1,10 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const massive = require('massive');
+const config = require('./config')
 
 const app = express();
 app.use(bodyParser.json());
 
 const port = 3000;
+
+massive(config.connectionString).then(db => {
+  app.set('db', db);
+});
 
 app.get('/', (req, res) => {
   res.send('massive-demo');
